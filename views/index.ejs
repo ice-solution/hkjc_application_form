@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP Application - 選擇表單</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white">
+<div class="min-h-screen bg-white">
+    <div class="max-w-3xl mx-auto px-6">
+        <!-- Banner -->
+        <div class="mt-8 rounded-t-lg overflow-hidden">
+            <img src="/images/banner.jpg" alt="Banner" class="w-full h-auto">
+        </div>
+
+        <!-- Main Content -->
+        <div class="py-12">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-4">選擇表單類型</h2>
+        <p class="text-gray-600 mb-8">請選擇您要填寫的表單類型</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="/form1" class="block p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Form 1</h3>
+                <p class="text-gray-600">基本資料表單（含個人資料私隱同意）</p>
+            </a>
+
+            <a href="/form2" class="block p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Form 2</h3>
+                <p class="text-gray-600">基本資料 + 攜眷資料</p>
+            </a>
+
+            <a href="/form3" class="block p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Form 3</h3>
+                <p class="text-gray-600">基本資料 + 攜眷 + 小孩資料</p>
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
