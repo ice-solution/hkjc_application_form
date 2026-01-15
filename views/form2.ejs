@@ -41,7 +41,7 @@
                     <!-- Surname -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Surname / 姓 <span class="text-red-500">*</span>
+                            *姓 / Surname <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="surname" required
                             placeholder="fill in the blank"
@@ -51,7 +51,7 @@
                     <!-- Given Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Given Name / 名 <span class="text-red-500">*</span>
+                            *名 / Given Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="givenName" required
                             placeholder="fill in the blank"
@@ -61,7 +61,7 @@
                     <!-- Chinese Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Chinese Name / 中文姓名
+                            中文姓名 / Chinese Name
                         </label>
                         <div class="grid grid-cols-12 gap-2">
                             <div class="col-span-6">
@@ -80,22 +80,22 @@
                     <!-- Title of Respect -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Title of Respect / 稱謂 <span class="text-red-500">*</span>
+                            *稱謂 / Title of Respect <span class="text-red-500">*</span>
                         </label>
                         <select name="titleOfRespect" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">--- Please select ---</option>
-                            <option value="Mr">Mr / 先生</option>
-                            <option value="Mrs">Mrs / 太太</option>
-                            <option value="Ms">Ms / 女士</option>
-                            <option value="Miss">Miss / 小姐</option>
+                            <option value="Mr">先生 / Mr</option>
+                            <option value="Mrs">太太 / Mrs</option>
+                            <option value="Ms">女士 / Ms</option>
+                            <option value="Miss">小姐 / Miss</option>
                         </select>
                     </div>
 
                     <!-- Company / Organization -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Company / Organization / 公司 / 機構
+                            公司 / 機構 / Company / Organization
                         </label>
                         <input type="text" name="company"
                             placeholder="fill in the blank"
@@ -105,7 +105,7 @@
                     <!-- Title -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Title / 職銜
+                            職銜 / Title
                         </label>
                         <input type="text" name="title"
                             placeholder="fill in the blank"
@@ -115,7 +115,7 @@
                     <!-- Mobile Country Code and Mobile -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Mobile / 手提電話
+                            手提電話 / Mobile
                         </label>
                         <div class="grid grid-cols-12 gap-2">
                             <div class="col-span-3">
@@ -135,7 +135,7 @@
                     <!-- Email -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Email / 電子郵件 <span class="text-red-500">*</span>
+                            *電子郵件 / Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" required
                             placeholder="fill in the blank"
@@ -145,16 +145,16 @@
                     <!-- Attend -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Attend / 出席 <span class="text-red-500">*</span>
+                            您會否出席馬會煙花匯演? Will you attend "Year of the Horse Fireworks Display"? <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-6">
                             <label class="flex items-center">
                                 <input type="radio" name="attend" value="Yes" required class="mr-2">
-                                <span>Yes / 出席</span>
+                                <span>出席 / Yes</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="attend" value="No" required class="mr-2">
-                                <span>No / 不出席</span>
+                                <span>不出席 / No</span>
                             </label>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                     <!-- Food Allergy -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Food Allergy (Please specify if any) / 食物敏感(如有請註明)
+                            食物敏感(如有請註明) / Food Allergy (Please specify if any)
                         </label>
                         <input type="text" name="foodAllergy"
                             placeholder="fill in the blank"
@@ -173,20 +173,20 @@
 
             <!-- Spouse Information (Yellow Background) -->
             <div class="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">With Spouse / 攜眷</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">攜眷 / With Spouse</h3>
                 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                        With Spouse / 攜眷
+                        攜眷 / With Spouse
                     </label>
                     <div class="flex gap-6">
                         <label class="flex items-center">
                             <input type="radio" name="withSpouse" value="Yes" required class="mr-2" onchange="toggleSpouseFields()">
-                            <span>Yes / 是</span>
+                            <span>是 / Yes</span>
                         </label>
                         <label class="flex items-center">
                             <input type="radio" name="withSpouse" value="No" required class="mr-2" onchange="toggleSpouseFields()">
-                            <span>No / 否</span>
+                            <span>否 / No</span>
                         </label>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                     <!-- Spouse Surname -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Surname / 姓 <span class="text-red-500">*</span>
+                            *姓 / Surname <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="spouseSurname"
                             placeholder="fill in the blank"
@@ -205,7 +205,7 @@
                     <!-- Spouse Given Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Given Name / 名 <span class="text-red-500">*</span>
+                            *名 / Given Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="spouseGivenName"
                             placeholder="fill in the blank"
@@ -215,7 +215,7 @@
                     <!-- Spouse Chinese Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Chinese Name / 中文姓名
+                            中文姓名 / Chinese Name
                         </label>
                         <div class="grid grid-cols-12 gap-2">
                             <div class="col-span-6">
@@ -234,22 +234,22 @@
                     <!-- Spouse Title of Respect -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *Title of Respect / 稱謂 <span class="text-red-500">*</span>
+                            *稱謂 / Title of Respect <span class="text-red-500">*</span>
                         </label>
                         <select name="spouseTitleOfRespect"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">--- Please select ---</option>
-                            <option value="Mr">Mr / 先生</option>
-                            <option value="Mrs">Mrs / 太太</option>
-                            <option value="Ms">Ms / 女士</option>
-                            <option value="Miss">Miss / 小姐</option>
+                            <option value="Mr">先生 / Mr</option>
+                            <option value="Mrs">太太 / Mrs</option>
+                            <option value="Ms">女士 / Ms</option>
+                            <option value="Miss">小姐 / Miss</option>
                         </select>
                     </div>
 
                     <!-- Spouse Mobile Country Code and Mobile -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Mobile / 手提電話
+                            手提電話 / Mobile
                         </label>
                         <div class="grid grid-cols-12 gap-2">
                             <div class="col-span-3">
@@ -269,7 +269,7 @@
                     <!-- Spouse Email -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *#Email / 電子郵件 <span class="text-red-500">*</span>
+                            *#電子郵件 / Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="spouseEmail"
                             placeholder="fill in the blank"
@@ -279,7 +279,7 @@
                     <!-- Spouse Food Allergy -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Food Allergy (Please specify if any) / 食物敏感(如有請註明)
+                            食物敏感(如有請註明) / Food Allergy (Please specify if any)
                         </label>
                         <input type="text" name="spouseFoodAllergy"
                             placeholder="fill in the blank"
@@ -290,15 +290,15 @@
 
             <!-- Important Notes -->
             <div class="mb-6 text-sm text-gray-600">
-                <p>*Items must be provided / 必須提供</p>
-                <p>#All attendees must register with distinct email addresses / 所有出席者的電郵地址必須各不相同</p>
+                <p>*必須提供 / Items must be provided</p>
+                <p>#所有出席者的電郵地址必須各不相同 / All attendees must register with distinct email addresses</p>
             </div>
 
             <!-- Privacy Policy -->
             <div class="mb-8 p-4 bg-gray-50 rounded-lg">
                 <div class="mb-4">
                     <p class="text-sm text-gray-700 mb-2">
-                        By submitting this form, you are deemed to have agreed that this platform and The Hong Kong Jockey Club may collect and use the relevant personal data, and have read and accepted The Hong Kong Jockey Club's Privacy Policy Statement available at 
+                        By submitting this form, you are deemed to have agreed that this platform and The Hong Kong Jockey Club may collect any and use the relevant personal data, and have read and accepted The Hong Kong Jockey Club's Privacy Policy Statement available at 
                         <a href="https://www.hkjc.com/home/english/corporate/corp_privacy.aspx" target="_blank" class="text-blue-600 hover:underline">https://www.hkjc.com/home/english/corporate/corp_privacy.aspx</a>. 
                         If you provide any personal data of any third party, you are deemed to have obtained authorisation to provide and allow this platform and The Hong Kong Jockey Club to collect and use the relevant personal data. Personal data may also be disclosed to third party services providers of this platform and The Hong Kong Jockey Club for the purposes of organising the event.
                     </p>
