@@ -11,7 +11,11 @@ const spouseSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  chineseName: {
+  chineseSurname: {
+    type: String,
+    trim: true
+  },
+  chineseGivenName: {
     type: String,
     trim: true
   },
@@ -51,7 +55,11 @@ const childSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  chineseName: {
+  chineseSurname: {
+    type: String,
+    trim: true
+  },
+  chineseGivenName: {
     type: String,
     trim: true
   },
@@ -92,7 +100,11 @@ const form3Schema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  chineseName: {
+  chineseSurname: {
+    type: String,
+    trim: true
+  },
+  chineseGivenName: {
     type: String,
     trim: true
   },

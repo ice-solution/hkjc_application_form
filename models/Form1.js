@@ -12,7 +12,11 @@ const form1Schema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  chineseName: {
+  chineseSurname: {
+    type: String,
+    trim: true
+  },
+  chineseGivenName: {
     type: String,
     trim: true
   },

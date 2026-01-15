@@ -19,7 +19,8 @@ router.post('/form1', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
-      chineseName: req.body.chineseName || '',
+      chineseSurname: req.body.chineseSurname || '',
+      chineseGivenName: req.body.chineseGivenName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
@@ -50,7 +51,8 @@ router.post('/form2', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
-      chineseName: req.body.chineseName || '',
+      chineseSurname: req.body.chineseSurname || '',
+      chineseGivenName: req.body.chineseGivenName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
@@ -102,7 +104,8 @@ router.post('/form3', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
-      chineseName: req.body.chineseName || '',
+      chineseSurname: req.body.chineseSurname || '',
+      chineseGivenName: req.body.chineseGivenName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
@@ -125,7 +128,8 @@ router.post('/form3', async (req, res) => {
       formData.spouse = {
         surname: req.body.spouseSurname,
         givenName: req.body.spouseGivenName,
-        chineseName: req.body.spouseChineseName || '',
+        chineseSurname: req.body.spouseChineseSurname || '',
+        chineseGivenName: req.body.spouseChineseGivenName || '',
         titleOfRespect: req.body.spouseTitleOfRespect,
         mobile: req.body.spouseMobile || '',
         mobileCountryCode: req.body.spouseMobileCountryCode || '',
@@ -146,7 +150,8 @@ router.post('/form3', async (req, res) => {
         formData.child1 = {
           surname: req.body.child1Surname,
           givenName: req.body.child1GivenName,
-          chineseName: req.body.child1ChineseName || '',
+          chineseSurname: req.body.child1ChineseSurname || '',
+          chineseGivenName: req.body.child1ChineseGivenName || '',
           titleOfRespect: req.body.child1TitleOfRespect,
           mobile: req.body.child1Mobile || '',
           mobileCountryCode: req.body.child1MobileCountryCode || '',
@@ -163,7 +168,8 @@ router.post('/form3', async (req, res) => {
         formData.child2 = {
           surname: req.body.child2Surname,
           givenName: req.body.child2GivenName,
-          chineseName: req.body.child2ChineseName || '',
+          chineseSurname: req.body.child2ChineseSurname || '',
+          chineseGivenName: req.body.child2ChineseGivenName || '',
           titleOfRespect: req.body.child2TitleOfRespect,
           mobile: req.body.child2Mobile || '',
           mobileCountryCode: req.body.child2MobileCountryCode || '',
