@@ -3,6 +3,7 @@ const router = express.Router();
 const Form1 = require('../models/Form1');
 const Form2 = require('../models/Form2');
 const Form3 = require('../models/Form3');
+const { sendAttendanceEmail } = require('../services/emailService');
 
 // 首頁 - 顯示表單選擇
 router.get('/', (req, res) => {
@@ -34,6 +35,21 @@ router.post('/form1', async (req, res) => {
 
     const form1 = new Form1(formData);
     await form1.save();
+    
+    // 發送郵件
+    console.log(`準備發送郵件給 ${formData.email}，出席狀態: ${formData.attend}`);
+    try {
+      const emailResult = await sendAttendanceEmail(formData.email, formData.attend);
+      if (emailResult.success) {
+        console.log(`郵件發送成功給 ${formData.email}:`, emailResult.messageId);
+      } else {
+        console.error(`郵件發送失敗給 ${formData.email}:`, emailResult.error);
+      }
+    } catch (error) {
+      console.error('發送郵件時發生錯誤:', error);
+      // 即使郵件發送失敗，也不影響表單提交成功
+    }
+    
     res.render('success', { formType: 'Form 1', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 1 提交錯誤:', error);
@@ -87,6 +103,21 @@ router.post('/form2', async (req, res) => {
 
     const form2 = new Form2(formData);
     await form2.save();
+    
+    // 發送郵件
+    console.log(`準備發送郵件給 ${formData.email}，出席狀態: ${formData.attend}`);
+    try {
+      const emailResult = await sendAttendanceEmail(formData.email, formData.attend);
+      if (emailResult.success) {
+        console.log(`郵件發送成功給 ${formData.email}:`, emailResult.messageId);
+      } else {
+        console.error(`郵件發送失敗給 ${formData.email}:`, emailResult.error);
+      }
+    } catch (error) {
+      console.error('發送郵件時發生錯誤:', error);
+      // 即使郵件發送失敗，也不影響表單提交成功
+    }
+    
     res.render('success', { formType: 'Form 2', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 2 提交錯誤:', error);
@@ -193,6 +224,21 @@ router.post('/form3', async (req, res) => {
 
     const form3 = new Form3(formData);
     await form3.save();
+    
+    // 發送郵件
+    console.log(`準備發送郵件給 ${formData.email}，出席狀態: ${formData.attend}`);
+    try {
+      const emailResult = await sendAttendanceEmail(formData.email, formData.attend);
+      if (emailResult.success) {
+        console.log(`郵件發送成功給 ${formData.email}:`, emailResult.messageId);
+      } else {
+        console.error(`郵件發送失敗給 ${formData.email}:`, emailResult.error);
+      }
+    } catch (error) {
+      console.error('發送郵件時發生錯誤:', error);
+      // 即使郵件發送失敗，也不影響表單提交成功
+    }
+    
     res.render('success', { formType: 'Form 3', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 3 提交錯誤:', error);
