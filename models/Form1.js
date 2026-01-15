@@ -12,6 +12,10 @@ const form1Schema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  chineseName: {
+    type: String,
+    trim: true
+  },
   titleOfRespect: {
     type: String,
     required: true,
@@ -26,6 +30,10 @@ const form1Schema = new mongoose.Schema({
     trim: true
   },
   mobile: {
+    type: String,
+    trim: true
+  },
+  mobileCountryCode: {
     type: String,
     trim: true
   },

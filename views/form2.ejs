@@ -58,6 +58,16 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
+                    <!-- Chinese Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Chinese Name / 中文姓名
+                        </label>
+                        <input type="text" name="chineseName"
+                            placeholder="fill in the blank"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
                     <!-- Title of Respect -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -93,14 +103,27 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
-                    <!-- Mobile -->
+                    <!-- Mobile Country Code and Mobile -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Mobile / 手提電話
                         </label>
-                        <input type="tel" name="mobile"
-                            placeholder="fill in the blank"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <div class="grid grid-cols-12 gap-2">
+                            <div class="col-span-2">
+                                <select name="mobileCountryCode"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">區碼</option>
+                                    <option value="+852">+852</option>
+                                    <option value="+86">+86</option>
+                                    <option value="+853">+853</option>
+                                </select>
+                            </div>
+                            <div class="col-span-10">
+                                <input type="tel" name="mobile"
+                                    placeholder="fill in the blank"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Email -->
@@ -121,11 +144,11 @@
                         <div class="flex gap-6">
                             <label class="flex items-center">
                                 <input type="radio" name="attend" value="Yes" required class="mr-2">
-                                <span>Yes (tick box) / 出席(tick box)</span>
+                                <span>Yes / 出席</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="attend" value="No" required class="mr-2">
-                                <span>No (tick box) / 不出席(tick box)</span>
+                                <span>No / 不出席</span>
                             </label>
                         </div>
                     </div>
@@ -153,11 +176,11 @@
                     <div class="flex gap-6">
                         <label class="flex items-center">
                             <input type="radio" name="withSpouse" value="Yes" required class="mr-2" onchange="toggleSpouseFields()">
-                            <span>Yes (tick box) / 是(tick box)</span>
+                            <span>Yes / 是</span>
                         </label>
                         <label class="flex items-center">
                             <input type="radio" name="withSpouse" value="No" required class="mr-2" onchange="toggleSpouseFields()">
-                            <span>No (tick box) / 否(tick box)</span>
+                            <span>No / 否</span>
                         </label>
                     </div>
                 </div>
@@ -183,6 +206,16 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
+                    <!-- Spouse Chinese Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Chinese Name / 中文姓名
+                        </label>
+                        <input type="text" name="spouseChineseName"
+                            placeholder="fill in the blank"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
                     <!-- Spouse Title of Respect -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -198,14 +231,27 @@
                         </select>
                     </div>
 
-                    <!-- Spouse Mobile -->
+                    <!-- Spouse Mobile Country Code and Mobile -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Mobile / 手提電話
                         </label>
-                        <input type="tel" name="spouseMobile"
-                            placeholder="fill in the blank"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <div class="grid grid-cols-12 gap-2">
+                            <div class="col-span-2">
+                                <select name="spouseMobileCountryCode"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">區碼</option>
+                                    <option value="+852">+852</option>
+                                    <option value="+86">+86</option>
+                                    <option value="+853">+853</option>
+                                </select>
+                            </div>
+                            <div class="col-span-10">
+                                <input type="tel" name="spouseMobile"
+                                    placeholder="fill in the blank"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Spouse Email -->

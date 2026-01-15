@@ -11,12 +11,20 @@ const spouseSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  chineseName: {
+    type: String,
+    trim: true
+  },
   titleOfRespect: {
     type: String,
     required: true,
     enum: ['Mr', 'Mrs', 'Ms', 'Miss']
   },
   mobile: {
+    type: String,
+    trim: true
+  },
+  mobileCountryCode: {
     type: String,
     trim: true
   },
@@ -43,12 +51,20 @@ const childSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  chineseName: {
+    type: String,
+    trim: true
+  },
   titleOfRespect: {
     type: String,
     required: true,
     enum: ['Mr', 'Mrs', 'Ms', 'Miss']
   },
   mobile: {
+    type: String,
+    trim: true
+  },
+  mobileCountryCode: {
     type: String,
     trim: true
   },
@@ -76,6 +92,10 @@ const form3Schema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  chineseName: {
+    type: String,
+    trim: true
+  },
   titleOfRespect: {
     type: String,
     required: true,
@@ -90,6 +110,10 @@ const form3Schema = new mongoose.Schema({
     trim: true
   },
   mobile: {
+    type: String,
+    trim: true
+  },
+  mobileCountryCode: {
     type: String,
     trim: true
   },
@@ -119,19 +143,18 @@ const form3Schema = new mongoose.Schema({
     required: false
   },
   // 小孩資料
-  withChild1: {
+  withChildren: {
     type: String,
     required: true,
     enum: ['Yes', 'No']
+  },
+  numberOfChildren: {
+    type: Number,
+    enum: [1, 2]
   },
   child1: {
     type: childSchema,
     required: false
-  },
-  withChild2: {
-    type: String,
-    required: true,
-    enum: ['Yes', 'No']
   },
   child2: {
     type: childSchema,

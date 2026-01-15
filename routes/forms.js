@@ -19,10 +19,12 @@ router.post('/form1', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
+      chineseName: req.body.chineseName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
       mobile: req.body.mobile || '',
+      mobileCountryCode: req.body.mobileCountryCode || '',
       email: req.body.email,
       attend: req.body.attend,
       foodAllergy: req.body.foodAllergy || '',
@@ -48,10 +50,12 @@ router.post('/form2', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
+      chineseName: req.body.chineseName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
       mobile: req.body.mobile || '',
+      mobileCountryCode: req.body.mobileCountryCode || '',
       email: req.body.email,
       attend: req.body.attend,
       foodAllergy: req.body.foodAllergy || '',
@@ -98,16 +102,18 @@ router.post('/form3', async (req, res) => {
     const formData = {
       surname: req.body.surname,
       givenName: req.body.givenName,
+      chineseName: req.body.chineseName || '',
       titleOfRespect: req.body.titleOfRespect,
       company: req.body.company || '',
       title: req.body.title || '',
       mobile: req.body.mobile || '',
+      mobileCountryCode: req.body.mobileCountryCode || '',
       email: req.body.email,
       attend: req.body.attend,
       foodAllergy: req.body.foodAllergy || '',
       withSpouse: req.body.withSpouse,
-      withChild1: req.body.withChild1,
-      withChild2: req.body.withChild2,
+      withChildren: req.body.withChildren,
+      numberOfChildren: req.body.numberOfChildren ? parseInt(req.body.numberOfChildren) : null,
       privacyConsent: req.body.privacyConsent === 'on' || req.body.privacyConsent === true
     };
 
@@ -119,8 +125,10 @@ router.post('/form3', async (req, res) => {
       formData.spouse = {
         surname: req.body.spouseSurname,
         givenName: req.body.spouseGivenName,
+        chineseName: req.body.spouseChineseName || '',
         titleOfRespect: req.body.spouseTitleOfRespect,
         mobile: req.body.spouseMobile || '',
+        mobileCountryCode: req.body.spouseMobileCountryCode || '',
         email: req.body.spouseEmail,
         foodAllergy: req.body.spouseFoodAllergy || ''
       };
@@ -129,33 +137,45 @@ router.post('/form3', async (req, res) => {
       formData.spouse = null;
     }
 
-    // 如果選擇攜同子女(1)
-    if (req.body.withChild1 === 'Yes') {
-      formData.child1 = {
-        surname: req.body.child1Surname,
-        givenName: req.body.child1GivenName,
-        titleOfRespect: req.body.child1TitleOfRespect,
-        mobile: req.body.child1Mobile || '',
-        email: req.body.child1Email,
-        foodAllergy: req.body.child1FoodAllergy || ''
-      };
-      emails.push(req.body.child1Email.toLowerCase());
+    // 如果選擇攜同子女
+    if (req.body.withChildren === 'Yes' && req.body.numberOfChildren) {
+      const numberOfChildren = parseInt(req.body.numberOfChildren);
+      
+      // 如果選擇 1 個或以上，填寫 child1
+      if (numberOfChildren >= 1) {
+        formData.child1 = {
+          surname: req.body.child1Surname,
+          givenName: req.body.child1GivenName,
+          chineseName: req.body.child1ChineseName || '',
+          titleOfRespect: req.body.child1TitleOfRespect,
+          mobile: req.body.child1Mobile || '',
+          mobileCountryCode: req.body.child1MobileCountryCode || '',
+          email: req.body.child1Email,
+          foodAllergy: req.body.child1FoodAllergy || ''
+        };
+        emails.push(req.body.child1Email.toLowerCase());
+      } else {
+        formData.child1 = null;
+      }
+      
+      // 如果選擇 2 個，填寫 child2
+      if (numberOfChildren >= 2) {
+        formData.child2 = {
+          surname: req.body.child2Surname,
+          givenName: req.body.child2GivenName,
+          chineseName: req.body.child2ChineseName || '',
+          titleOfRespect: req.body.child2TitleOfRespect,
+          mobile: req.body.child2Mobile || '',
+          mobileCountryCode: req.body.child2MobileCountryCode || '',
+          email: req.body.child2Email,
+          foodAllergy: req.body.child2FoodAllergy || ''
+        };
+        emails.push(req.body.child2Email.toLowerCase());
+      } else {
+        formData.child2 = null;
+      }
     } else {
       formData.child1 = null;
-    }
-
-    // 如果選擇攜同子女(2)
-    if (req.body.withChild2 === 'Yes') {
-      formData.child2 = {
-        surname: req.body.child2Surname,
-        givenName: req.body.child2GivenName,
-        titleOfRespect: req.body.child2TitleOfRespect,
-        mobile: req.body.child2Mobile || '',
-        email: req.body.child2Email,
-        foodAllergy: req.body.child2FoodAllergy || ''
-      };
-      emails.push(req.body.child2Email.toLowerCase());
-    } else {
       formData.child2 = null;
     }
 
