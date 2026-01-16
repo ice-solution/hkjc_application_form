@@ -25,7 +25,7 @@
         <div class="py-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">香港馬會呈獻：「馬到功成耀香江」馬年煙花滙演</h2>
         <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">The Hong Kong Jockey Club Presents: </h2>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">'Prosperity Gallops Across Hong Kong'</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">"Prosperity Gallops Across Hong Kong"</h2>
         <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">Year of the Horse Fireworks Display </h2>
             <p class="text-gray-600 mb-6">請填寫以下資料完成活動報名
                 Please fill in the following information to complete event registration</p>
@@ -153,11 +153,11 @@
                         </label>
                         <div class="flex gap-6">
                             <label class="flex items-center">
-                                <input type="radio" name="attend" value="Yes" required class="mr-2">
+                                <input type="radio" name="attend" value="Yes" required class="mr-2" onchange="toggleAttendSections()">
                                 <span>出席 / Yes</span>
                             </label>
                             <label class="flex items-center">
-                                <input type="radio" name="attend" value="No" required class="mr-2">
+                                <input type="radio" name="attend" value="No" required class="mr-2" onchange="toggleAttendSections()">
                                 <span>不出席 / No</span>
                             </label>
                         </div>
@@ -176,7 +176,7 @@
             </div>
 
             <!-- Spouse Information (Yellow Background) -->
-            <div class="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div id="spouseSection" class="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">攜眷 / With Spouse</h3>
                 
                 <div class="mb-6">
@@ -293,7 +293,7 @@
             </div>
 
             <!-- Children Information -->
-            <div class="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
+            <div id="childrenSection" class="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg hidden">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">攜同子女 / With Children</h3>
                 
                 <!-- Step 1: 是否攜同子女 -->
@@ -553,18 +553,15 @@
                     <input type="checkbox" name="privacyConsent" id="privacyConsent" required
                         class="mt-1 mr-2 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                     <label for="privacyConsent" class="text-sm text-gray-700">
-                        我已閱讀並同意上述隱私政策 <span class="text-red-500">*</span>
+                        我已閱讀並同意上述隱私政策 I have read and agree to the above privacy policy. <span class="text-red-500">*</span>
                     </label>
                 </div>
             </div>
 
             <!-- Buttons -->
             <div class="flex gap-4 justify-end">
-                <a href="/" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                    返回
-                </a>
                 <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    提交
+                    提交 Submit
                 </button>
             </div>
         </form>
@@ -573,6 +570,30 @@
 </div>
 
 <script>
+function toggleAttendSections() {
+    const attend = document.querySelector('input[name="attend"]:checked');
+    const spouseSection = document.getElementById('spouseSection');
+    const childrenSection = document.getElementById('childrenSection');
+    
+    if (attend && attend.value === 'Yes') {
+        spouseSection.classList.remove('hidden');
+        childrenSection.classList.remove('hidden');
+    } else {
+        spouseSection.classList.add('hidden');
+        childrenSection.classList.add('hidden');
+        // 重置攜眷選項
+        document.querySelectorAll('input[name="withSpouse"]').forEach(radio => {
+            radio.checked = false;
+        });
+        toggleSpouseFields();
+        // 重置子女選項
+        document.querySelectorAll('input[name="withChildren"]').forEach(radio => {
+            radio.checked = false;
+        });
+        toggleChildrenSection();
+    }
+}
+
 function toggleSpouseFields() {
     const withSpouse = document.querySelector('input[name="withSpouse"]:checked');
     const spouseFields = document.getElementById('spouseFields');
@@ -677,42 +698,46 @@ function clearChildrenFields() {
 
 // 表單提交前驗證
 document.getElementById('form3').addEventListener('submit', function(e) {
-    const emails = [document.querySelector('input[name="email"]').value.toLowerCase()];
-    
-    // 收集所有 email
-    const withSpouse = document.querySelector('input[name="withSpouse"]:checked');
-    if (withSpouse && withSpouse.value === 'Yes') {
-        const spouseEmail = document.querySelector('input[name="spouseEmail"]').value.toLowerCase();
-        if (spouseEmail) emails.push(spouseEmail);
-    }
-    
-    const withChildren = document.querySelector('input[name="withChildren"]:checked');
-    const numberOfChildren = document.querySelector('input[name="numberOfChildren"]:checked');
-    
-    if (withChildren && withChildren.value === 'Yes' && numberOfChildren) {
-        const count = parseInt(numberOfChildren.value);
+    const attend = document.querySelector('input[name="attend"]:checked');
+    // 只有選擇出席時才驗證攜眷和子女資料
+    if (attend && attend.value === 'Yes') {
+        const emails = [document.querySelector('input[name="email"]').value.toLowerCase()];
         
-        if (count >= 1) {
-            const child1Email = document.querySelector('input[name="child1Email"]');
-            if (child1Email && child1Email.value) {
-                emails.push(child1Email.value.toLowerCase());
+        // 收集所有 email
+        const withSpouse = document.querySelector('input[name="withSpouse"]:checked');
+        if (withSpouse && withSpouse.value === 'Yes') {
+            const spouseEmail = document.querySelector('input[name="spouseEmail"]').value.toLowerCase();
+            if (spouseEmail) emails.push(spouseEmail);
+        }
+        
+        const withChildren = document.querySelector('input[name="withChildren"]:checked');
+        const numberOfChildren = document.querySelector('input[name="numberOfChildren"]:checked');
+        
+        if (withChildren && withChildren.value === 'Yes' && numberOfChildren) {
+            const count = parseInt(numberOfChildren.value);
+            
+            if (count >= 1) {
+                const child1Email = document.querySelector('input[name="child1Email"]');
+                if (child1Email && child1Email.value) {
+                    emails.push(child1Email.value.toLowerCase());
+                }
+            }
+            
+            if (count >= 2) {
+                const child2Email = document.querySelector('input[name="child2Email"]');
+                if (child2Email && child2Email.value) {
+                    emails.push(child2Email.value.toLowerCase());
+                }
             }
         }
         
-        if (count >= 2) {
-            const child2Email = document.querySelector('input[name="child2Email"]');
-            if (child2Email && child2Email.value) {
-                emails.push(child2Email.value.toLowerCase());
-            }
+        // 檢查 email 唯一性
+        const uniqueEmails = [...new Set(emails)];
+        if (emails.length !== uniqueEmails.length) {
+            e.preventDefault();
+            alert('所有出席者的電郵地址必須各不相同');
+            return false;
         }
-    }
-    
-    // 檢查 email 唯一性
-    const uniqueEmails = [...new Set(emails)];
-    if (emails.length !== uniqueEmails.length) {
-        e.preventDefault();
-        alert('所有出席者的電郵地址必須各不相同');
-        return false;
     }
 });
 </script>
