@@ -53,7 +53,7 @@ router.post('/form1', async (req, res) => {
     res.render('success', { formType: 'Form 1', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 1 提交錯誤:', error);
-    res.render('form1', { error: '提交失敗，請檢查所有必填欄位' });
+    res.render('form1', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
   }
 });
 
@@ -121,7 +121,7 @@ router.post('/form2', async (req, res) => {
     res.render('success', { formType: 'Form 2', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 2 提交錯誤:', error);
-    res.render('form2', { error: '提交失敗，請檢查所有必填欄位' });
+    res.render('form2', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
   }
 });
 
@@ -242,7 +242,7 @@ router.post('/form3', async (req, res) => {
     res.render('success', { formType: 'Form 3', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 3 提交錯誤:', error);
-    res.render('form3', { error: '提交失敗，請檢查所有必填欄位' });
+    res.render('form3', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
   }
 });
 
