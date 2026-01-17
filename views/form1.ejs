@@ -38,13 +38,11 @@
 
         <form method="POST" action="/form1" class="bg-white">
             <div class="mb-8">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Main Attendee Information</h3>
-                
                 <div class="space-y-6">
                     <!-- Surname -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *姓 / Surname <span class="text-red-500">*</span>
+                            *姓(英文) / Surname in English <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="surname" required
                             placeholder="fill in the blank"
@@ -54,7 +52,7 @@
                     <!-- Given Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            *名 / Given Name <span class="text-red-500">*</span>
+                            *名(英文) / Given Name in English <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="givenName" required
                             placeholder="fill in the blank"
@@ -63,16 +61,19 @@
 
                     <!-- Chinese Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            中文姓名 / Chinese Name
-                        </label>
                         <div class="grid grid-cols-12 gap-2">
                             <div class="col-span-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    姓(中文) / Surname in Chinese
+                                </label>
                                 <input type="text" name="chineseSurname"
                                     placeholder="fill in the blank"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                             <div class="col-span-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    名(中文) / Given names in Chinese
+                                </label>
                                 <input type="text" name="chineseGivenName"
                                     placeholder="fill in the blank"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
