@@ -83,11 +83,6 @@ router.post('/form2', async (req, res) => {
 
     // 如果選擇攜眷，則需要填寫配偶資料
     if (req.body.withSpouse === 'Yes') {
-      // 驗證 email 唯一性
-      if (req.body.email.toLowerCase() === req.body.spouseEmail.toLowerCase()) {
-        return res.render('form2', { error: '所有出席者的電郵地址必須各不相同' });
-      }
-
       formData.spouse = {
         surname: req.body.spouseSurname,
         givenName: req.body.spouseGivenName,
@@ -151,9 +146,6 @@ router.post('/form3', async (req, res) => {
       privacyConsent: req.body.privacyConsent === 'on' || req.body.privacyConsent === true
     };
 
-    // 收集所有 email 用於驗證唯一性
-    const emails = [req.body.email.toLowerCase()];
-
     // 如果選擇攜眷，則需要填寫配偶資料
     if (req.body.withSpouse === 'Yes') {
       formData.spouse = {
@@ -167,7 +159,6 @@ router.post('/form3', async (req, res) => {
         email: req.body.spouseEmail,
         foodAllergy: req.body.spouseFoodAllergy || ''
       };
-      emails.push(req.body.spouseEmail.toLowerCase());
     } else {
       formData.spouse = null;
     }
@@ -189,7 +180,6 @@ router.post('/form3', async (req, res) => {
           email: req.body.child1Email,
           foodAllergy: req.body.child1FoodAllergy || ''
         };
-        emails.push(req.body.child1Email.toLowerCase());
       } else {
         formData.child1 = null;
       }
@@ -207,19 +197,12 @@ router.post('/form3', async (req, res) => {
           email: req.body.child2Email,
           foodAllergy: req.body.child2FoodAllergy || ''
         };
-        emails.push(req.body.child2Email.toLowerCase());
       } else {
         formData.child2 = null;
       }
     } else {
       formData.child1 = null;
       formData.child2 = null;
-    }
-
-    // 驗證 email 唯一性
-    const uniqueEmails = [...new Set(emails)];
-    if (emails.length !== uniqueEmails.length) {
-      return res.render('form3', { error: '所有出席者的電郵地址必須各不相同' });
     }
 
     const form3 = new Form3(formData);
