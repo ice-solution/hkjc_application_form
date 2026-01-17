@@ -602,7 +602,9 @@ function toggleSpouseFields() {
     if (withSpouse && withSpouse.value === 'Yes') {
         spouseFields.classList.remove('hidden');
         spouseInputs.forEach(input => {
-            if (input.name.includes('Surname') || input.name.includes('GivenName') || 
+            // 排除中文姓名欄位，只設置英文姓名、稱謂和Email為必填
+            if ((input.name.includes('Surname') && !input.name.includes('Chinese')) || 
+                (input.name.includes('GivenName') && !input.name.includes('Chinese')) || 
                 input.name.includes('TitleOfRespect') || input.name.includes('Email')) {
                 input.setAttribute('required', 'required');
             }
@@ -673,7 +675,9 @@ function toggleChildrenFields() {
 function setRequiredFields(container, required) {
     const inputs = container.querySelectorAll('input, select');
     inputs.forEach(input => {
-        if (input.name.includes('Surname') || input.name.includes('GivenName') || 
+        // 排除中文姓名欄位，只設置英文姓名、稱謂和Email為必填
+        if ((input.name.includes('Surname') && !input.name.includes('Chinese')) || 
+            (input.name.includes('GivenName') && !input.name.includes('Chinese')) || 
             input.name.includes('TitleOfRespect') || input.name.includes('Email')) {
             if (required) {
                 input.setAttribute('required', 'required');
