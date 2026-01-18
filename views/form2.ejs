@@ -414,7 +414,14 @@ document.getElementById('form2').addEventListener('submit', async function(e) {
             const spouseEmail = document.querySelector('input[name="spouseEmail"]').value.toLowerCase().trim();
             
             if (mainEmail && spouseEmail && mainEmail === spouseEmail) {
-                alert('主要申請人和攜眷的電郵地址不能相同');
+                const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6';
+                errorDiv.innerHTML = errorMsg;
+                form.insertBefore(errorDiv, form.firstChild);
+                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
                 return false;
             }
         }

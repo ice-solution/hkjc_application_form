@@ -762,7 +762,14 @@ document.getElementById('form3').addEventListener('submit', async function(e) {
         // 檢查 email 唯一性
         const uniqueEmails = [...new Set(emails)];
         if (emails.length !== uniqueEmails.length) {
-            alert('所有出席者的電郵地址必須各不相同');
+            const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6';
+            errorDiv.innerHTML = errorMsg;
+            form.insertBefore(errorDiv, form.firstChild);
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
             return false;
         }
     }
