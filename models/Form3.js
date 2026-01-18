@@ -147,7 +147,7 @@ const form3Schema = new mongoose.Schema({
   // 攜眷資料
   withSpouse: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Yes', 'No']
   },
   spouse: {
@@ -157,7 +157,7 @@ const form3Schema = new mongoose.Schema({
   // 小孩資料
   withChildren: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Yes', 'No']
   },
   numberOfChildren: {

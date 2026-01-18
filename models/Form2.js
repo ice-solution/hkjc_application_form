@@ -103,7 +103,7 @@ const form2Schema = new mongoose.Schema({
   // 攜眷資料
   withSpouse: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Yes', 'No']
   },
   spouse: {
