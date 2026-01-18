@@ -542,7 +542,6 @@
             <!-- Important Notes -->
             <div class="mb-6 text-sm text-gray-600">
                 <p>*必須提供 / Items must be provided</p>
-                <p>#所有出席者的電郵地址必須各不相同 / All attendees must register with distinct email addresses</p>
             </div>
 
             <!-- Privacy Policy -->
@@ -709,51 +708,7 @@ function clearChildrenFields() {
     clearChildFields(document.getElementById('child1Fields'));
     clearChildFields(document.getElementById('child2Fields'));
 }
-
-// 表單提交前驗證
-document.getElementById('form3').addEventListener('submit', function(e) {
-    const attend = document.querySelector('input[name="attend"]:checked');
-    // 只有選擇出席時才驗證攜眷和子女資料
-    if (attend && attend.value === 'Yes') {
-        const emails = [document.querySelector('input[name="email"]').value.toLowerCase()];
-        
-        // 收集所有 email
-        const withSpouse = document.querySelector('input[name="withSpouse"]:checked');
-        if (withSpouse && withSpouse.value === 'Yes') {
-            const spouseEmail = document.querySelector('input[name="spouseEmail"]').value.toLowerCase();
-            if (spouseEmail) emails.push(spouseEmail);
-        }
-        
-        const withChildren = document.querySelector('input[name="withChildren"]:checked');
-        const numberOfChildren = document.querySelector('input[name="numberOfChildren"]:checked');
-        
-        if (withChildren && withChildren.value === 'Yes' && numberOfChildren) {
-            const count = parseInt(numberOfChildren.value);
-            
-            if (count >= 1) {
-                const child1Email = document.querySelector('input[name="child1Email"]');
-                if (child1Email && child1Email.value) {
-                    emails.push(child1Email.value.toLowerCase());
-                }
-            }
-            
-            if (count >= 2) {
-                const child2Email = document.querySelector('input[name="child2Email"]');
-                if (child2Email && child2Email.value) {
-                    emails.push(child2Email.value.toLowerCase());
-                }
-            }
-        }
-        
-        // 檢查 email 唯一性
-        const uniqueEmails = [...new Set(emails)];
-        if (emails.length !== uniqueEmails.length) {
-            e.preventDefault();
-            alert('所有出席者的電郵地址必須各不相同');
-            return false;
-        }
-    }
-});
 </script>
+
 </body>
 </html>
