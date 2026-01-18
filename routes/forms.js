@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
   res.render('success', { 
     formType: '表單', 
-    message: '' 
+    message: '您的表單已成功提交。Your information has been submitted successfully!' 
   });
 });
 
@@ -78,7 +78,7 @@ router.post('/form1', async (req, res) => {
     // 檢查 email 是否已登記
     const emailExists = await checkEmailExists(formData.email);
     if (emailExists) {
-      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
+      const errorMsg = "此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.";
       // 檢查是否為 AJAX 請求
       if (req.xhr || req.headers.accept.indexOf('json') > -1) {
         return res.status(400).json({ success: false, error: errorMsg });

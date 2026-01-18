@@ -259,7 +259,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
             // 錯誤：顯示錯誤訊息
             const errorDiv = document.createElement('div');
             errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6';
-            errorDiv.textContent = data.error || '提交失敗，請檢查所有必填欄位';
+            errorDiv.innerHTML = (data.error || '提交失敗，請檢查所有必填欄位').replace(/\n/g, '<br>');
             form.insertBefore(errorDiv, form.firstChild);
             
             // 滾動到錯誤訊息
