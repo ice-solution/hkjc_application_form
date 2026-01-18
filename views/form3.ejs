@@ -588,17 +588,26 @@ function toggleAttendSections() {
     if (attend && attend.value === 'Yes') {
         spouseSection.classList.remove('hidden');
         childrenSection.classList.remove('hidden');
+        // 恢復攜眷和子女選項的 required 屬性
+        document.querySelectorAll('input[name="withSpouse"]').forEach(radio => {
+            radio.setAttribute('required', 'required');
+        });
+        document.querySelectorAll('input[name="withChildren"]').forEach(radio => {
+            radio.setAttribute('required', 'required');
+        });
     } else {
         spouseSection.classList.add('hidden');
         childrenSection.classList.add('hidden');
-        // 重置攜眷選項
+        // 移除攜眷和子女選項的 required 屬性（因為隱藏了）
         document.querySelectorAll('input[name="withSpouse"]').forEach(radio => {
             radio.checked = false;
+            radio.removeAttribute('required');
         });
         toggleSpouseFields();
         // 重置子女選項
         document.querySelectorAll('input[name="withChildren"]').forEach(radio => {
             radio.checked = false;
+            radio.removeAttribute('required');
         });
         toggleChildrenSection();
     }
@@ -709,6 +718,11 @@ function clearChildrenFields() {
     clearChildFields(document.getElementById('child1Fields'));
     clearChildFields(document.getElementById('child2Fields'));
 }
+
+// 頁面加載時初始化狀態
+document.addEventListener('DOMContentLoaded', function() {
+    toggleAttendSections();
+});
 
 // 表單提交前驗證和 AJAX 提交
 document.getElementById('form3').addEventListener('submit', async function(e) {

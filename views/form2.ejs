@@ -343,11 +343,16 @@ function toggleAttendSections() {
     
     if (attend && attend.value === 'Yes') {
         spouseSection.classList.remove('hidden');
+        // 恢復攜眷選項的 required 屬性
+        document.querySelectorAll('input[name="withSpouse"]').forEach(radio => {
+            radio.setAttribute('required', 'required');
+        });
     } else {
         spouseSection.classList.add('hidden');
-        // 重置攜眷選項
+        // 移除攜眷選項的 required 屬性（因為隱藏了）
         document.querySelectorAll('input[name="withSpouse"]').forEach(radio => {
             radio.checked = false;
+            radio.removeAttribute('required');
         });
         toggleSpouseFields();
     }
@@ -371,6 +376,11 @@ function toggleSpouseFields() {
         });
     }
 }
+
+// 頁面加載時初始化狀態
+document.addEventListener('DOMContentLoaded', function() {
+    toggleAttendSections();
+});
 
 // 表單提交前驗證和 AJAX 提交
 document.getElementById('form2').addEventListener('submit', async function(e) {
