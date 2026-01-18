@@ -77,7 +77,7 @@ router.post('/form1', async (req, res) => {
     // 檢查 email 是否已登記
     const emailExists = await checkEmailExists(formData.email);
     if (emailExists) {
-      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
       // 檢查是否為 AJAX 請求
       if (req.xhr || req.headers.accept.indexOf('json') > -1) {
         return res.status(400).json({ success: false, error: errorMsg });
@@ -156,7 +156,7 @@ router.post('/form2', async (req, res) => {
       // 檢查攜眷 email 是否已登記
       const spouseEmailExists = await checkEmailExists(formData.spouse.email);
       if (spouseEmailExists) {
-        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
         if (req.xhr || req.headers.accept.indexOf('json') > -1) {
           return res.status(400).json({ success: false, error: errorMsg });
         }
@@ -170,7 +170,7 @@ router.post('/form2', async (req, res) => {
     // 檢查主申請人 email 是否已登記
     const emailExists = await checkEmailExists(formData.email);
     if (emailExists) {
-      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
       if (req.xhr || req.headers.accept.indexOf('json') > -1) {
         return res.status(400).json({ success: false, error: errorMsg });
       }
@@ -239,7 +239,7 @@ router.post('/form3', async (req, res) => {
     // 檢查主申請人 email 是否已登記
     const emailExists = await checkEmailExists(formData.email);
     if (emailExists) {
-      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
       if (req.xhr || req.headers.accept.indexOf('json') > -1) {
         return res.status(400).json({ success: false, error: errorMsg });
       }
@@ -263,7 +263,7 @@ router.post('/form3', async (req, res) => {
       // 檢查攜眷 email 是否已登記
       const spouseEmailExists = await checkEmailExists(formData.spouse.email);
       if (spouseEmailExists) {
-        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
         if (req.xhr || req.headers.accept.indexOf('json') > -1) {
           return res.status(400).json({ success: false, error: errorMsg });
         }
@@ -294,7 +294,7 @@ router.post('/form3', async (req, res) => {
         // 檢查子女1 email 是否已登記
         const child1EmailExists = await checkEmailExists(formData.child1.email);
         if (child1EmailExists) {
-          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
           if (req.xhr || req.headers.accept.indexOf('json') > -1) {
             return res.status(400).json({ success: false, error: errorMsg });
           }
@@ -321,7 +321,7 @@ router.post('/form3', async (req, res) => {
         // 檢查子女2 email 是否已登記
         const child2EmailExists = await checkEmailExists(formData.child2.email);
         if (child2EmailExists) {
-          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。<br>This email address has already been registered and cannot be used for registration again.';
           if (req.xhr || req.headers.accept.indexOf('json') > -1) {
             return res.status(400).json({ success: false, error: errorMsg });
           }
