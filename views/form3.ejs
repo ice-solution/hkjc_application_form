@@ -710,9 +710,21 @@ function clearChildrenFields() {
     clearChildFields(document.getElementById('child2Fields'));
 }
 
-// 表單提交前驗證
-document.getElementById('form3').addEventListener('submit', function(e) {
+// 表單提交前驗證和 AJAX 提交
+document.getElementById('form3').addEventListener('submit', async function(e) {
+    e.preventDefault(); // 總是阻止預設提交
+    
+    const form = this;
     const attend = document.querySelector('input[name="attend"]:checked');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    // 隱藏之前的錯誤訊息
+    const errorDiv = document.querySelector('.bg-red-100');
+    if (errorDiv) {
+        errorDiv.remove();
+    }
+    
     // 只有選擇出席時才驗證攜眷和子女資料
     if (attend && attend.value === 'Yes') {
         const emails = [];
@@ -750,10 +762,53 @@ document.getElementById('form3').addEventListener('submit', function(e) {
         // 檢查 email 唯一性
         const uniqueEmails = [...new Set(emails)];
         if (emails.length !== uniqueEmails.length) {
-            e.preventDefault();
             alert('所有出席者的電郵地址必須各不相同');
             return false;
         }
+    }
+    
+    // 使用 AJAX 提交
+    submitButton.disabled = true;
+    submitButton.textContent = '提交中...';
+    
+    try {
+        // 將 FormData 轉換為 URLSearchParams 以確保正確的 Content-Type
+        const formDataObj = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formDataObj.entries()) {
+            params.append(key, value);
+        }
+        
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: params,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // 成功：跳轉到成功頁面
+            window.location.href = '/success';
+        } else {
+            // 錯誤：顯示錯誤訊息
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6';
+            errorDiv.innerHTML = (data.error || '提交失敗，請檢查所有必填欄位').replace(/\n/g, '<br>');
+            form.insertBefore(errorDiv, form.firstChild);
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    } catch (error) {
+        console.error('提交錯誤:', error);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6';
+        errorDiv.textContent = '提交失敗，請稍後再試 Submission failed, please try again later.';
+        form.insertBefore(errorDiv, form.firstChild);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
     }
 });
 </script>

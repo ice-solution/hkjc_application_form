@@ -5,9 +5,50 @@ const Form2 = require('../models/Form2');
 const Form3 = require('../models/Form3');
 const { sendAttendanceEmail } = require('../services/emailService');
 
+// 檢查 email 是否已在資料庫中註冊
+async function checkEmailExists(email) {
+  if (!email) return false;
+  
+  const emailLower = email.toLowerCase().trim();
+  
+  // 檢查 Form1
+  const existsInForm1 = await Form1.findOne({ email: emailLower });
+  if (existsInForm1) return true;
+  
+  // 檢查 Form2 (主申請人和攜眷)
+  const existsInForm2 = await Form2.findOne({
+    $or: [
+      { email: emailLower },
+      { 'spouse.email': emailLower }
+    ]
+  });
+  if (existsInForm2) return true;
+  
+  // 檢查 Form3 (主申請人、攜眷、子女1、子女2)
+  const existsInForm3 = await Form3.findOne({
+    $or: [
+      { email: emailLower },
+      { 'spouse.email': emailLower },
+      { 'child1.email': emailLower },
+      { 'child2.email': emailLower }
+    ]
+  });
+  if (existsInForm3) return true;
+  
+  return false;
+}
+
 // 首頁 - 顯示表單選擇
 router.get('/', (req, res) => {
   res.render('index');
+});
+
+// 成功頁面
+router.get('/success', (req, res) => {
+  res.render('success', { 
+    formType: '表單', 
+    message: '您的表單已成功提交。Your information has been submitted successfully!' 
+  });
 });
 
 // Form 1 Routes
@@ -33,6 +74,17 @@ router.post('/form1', async (req, res) => {
       privacyConsent: req.body.privacyConsent === 'on' || req.body.privacyConsent === true
     };
 
+    // 檢查 email 是否已登記
+    const emailExists = await checkEmailExists(formData.email);
+    if (emailExists) {
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      // 檢查是否為 AJAX 請求
+      if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+        return res.status(400).json({ success: false, error: errorMsg });
+      }
+      return res.render('form1', { error: errorMsg });
+    }
+
     const form1 = new Form1(formData);
     await form1.save();
     
@@ -50,10 +102,19 @@ router.post('/form1', async (req, res) => {
       // 即使郵件發送失敗，也不影響表單提交成功
     }
     
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({ success: true, message: '表單提交成功！' });
+    }
     res.render('success', { formType: 'Form 1', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 1 提交錯誤:', error);
-    res.render('form1', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
+    const errorMsg = '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information';
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(400).json({ success: false, error: errorMsg });
+    }
+    res.render('form1', { error: errorMsg });
   }
 });
 
@@ -91,9 +152,29 @@ router.post('/form2', async (req, res) => {
         email: req.body.spouseEmail,
         foodAllergy: req.body.spouseFoodAllergy || ''
       };
+      
+      // 檢查攜眷 email 是否已登記
+      const spouseEmailExists = await checkEmailExists(formData.spouse.email);
+      if (spouseEmailExists) {
+        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+        if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+          return res.status(400).json({ success: false, error: errorMsg });
+        }
+        return res.render('form2', { error: errorMsg });
+      }
     } else {
       // 如果選擇不攜眷，spouse 設為 null
       formData.spouse = null;
+    }
+
+    // 檢查主申請人 email 是否已登記
+    const emailExists = await checkEmailExists(formData.email);
+    if (emailExists) {
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+        return res.status(400).json({ success: false, error: errorMsg });
+      }
+      return res.render('form2', { error: errorMsg });
     }
 
     const form2 = new Form2(formData);
@@ -113,10 +194,19 @@ router.post('/form2', async (req, res) => {
       // 即使郵件發送失敗，也不影響表單提交成功
     }
     
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({ success: true, message: '表單提交成功！' });
+    }
     res.render('success', { formType: 'Form 2', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 2 提交錯誤:', error);
-    res.render('form2', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
+    const errorMsg = '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information';
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(400).json({ success: false, error: errorMsg });
+    }
+    res.render('form2', { error: errorMsg });
   }
 });
 
@@ -146,6 +236,16 @@ router.post('/form3', async (req, res) => {
       privacyConsent: req.body.privacyConsent === 'on' || req.body.privacyConsent === true
     };
 
+    // 檢查主申請人 email 是否已登記
+    const emailExists = await checkEmailExists(formData.email);
+    if (emailExists) {
+      const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+      if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+        return res.status(400).json({ success: false, error: errorMsg });
+      }
+      return res.render('form3', { error: errorMsg });
+    }
+
     // 如果選擇攜眷，則需要填寫配偶資料
     if (req.body.withSpouse === 'Yes') {
       formData.spouse = {
@@ -159,6 +259,16 @@ router.post('/form3', async (req, res) => {
         email: req.body.spouseEmail,
         foodAllergy: req.body.spouseFoodAllergy || ''
       };
+      
+      // 檢查攜眷 email 是否已登記
+      const spouseEmailExists = await checkEmailExists(formData.spouse.email);
+      if (spouseEmailExists) {
+        const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+        if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+          return res.status(400).json({ success: false, error: errorMsg });
+        }
+        return res.render('form3', { error: errorMsg });
+      }
     } else {
       formData.spouse = null;
     }
@@ -180,6 +290,16 @@ router.post('/form3', async (req, res) => {
           email: req.body.child1Email,
           foodAllergy: req.body.child1FoodAllergy || ''
         };
+        
+        // 檢查子女1 email 是否已登記
+        const child1EmailExists = await checkEmailExists(formData.child1.email);
+        if (child1EmailExists) {
+          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+          if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+            return res.status(400).json({ success: false, error: errorMsg });
+          }
+          return res.render('form3', { error: errorMsg });
+        }
       } else {
         formData.child1 = null;
       }
@@ -197,6 +317,16 @@ router.post('/form3', async (req, res) => {
           email: req.body.child2Email,
           foodAllergy: req.body.child2FoodAllergy || ''
         };
+        
+        // 檢查子女2 email 是否已登記
+        const child2EmailExists = await checkEmailExists(formData.child2.email);
+        if (child2EmailExists) {
+          const errorMsg = '此電郵地址此前已用作登記，因此無法再次使用。\nThis email address has already been registered and cannot be used for registration again.';
+          if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+            return res.status(400).json({ success: false, error: errorMsg });
+          }
+          return res.render('form3', { error: errorMsg });
+        }
       } else {
         formData.child2 = null;
       }
@@ -222,10 +352,19 @@ router.post('/form3', async (req, res) => {
       // 即使郵件發送失敗，也不影響表單提交成功
     }
     
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({ success: true, message: '表單提交成功！' });
+    }
     res.render('success', { formType: 'Form 3', message: '表單提交成功！' });
   } catch (error) {
     console.error('Form 3 提交錯誤:', error);
-    res.render('form3', { error: '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information' });
+    const errorMsg = '提交失敗，請檢查所有必填欄位 Submission failed, please fill all the required information';
+    // 檢查是否為 AJAX 請求
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(400).json({ success: false, error: errorMsg });
+    }
+    res.render('form3', { error: errorMsg });
   }
 });
 
