@@ -767,12 +767,6 @@ document.getElementById('form3').addEventListener('submit', async function(e) {
         }
     }
     
-    // 隱藏之前的錯誤訊息
-    const errorDiv = document.querySelector('.bg-red-100');
-    if (errorDiv) {
-        errorDiv.remove();
-    }
-    
     // 使用 AJAX 提交
     submitButton.disabled = true;
     submitButton.textContent = '提交中...';
