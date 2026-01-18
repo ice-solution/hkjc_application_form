@@ -4,6 +4,7 @@ const Form1 = require('../models/Form1');
 const Form2 = require('../models/Form2');
 const Form3 = require('../models/Form3');
 const { sendAttendanceEmail } = require('../services/emailService');
+const XLSX = require('xlsx');
 
 // 檢查 email 是否已在資料庫中註冊
 async function checkEmailExists(email) {
@@ -47,7 +48,7 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
   res.render('success', { 
     formType: '表單', 
-    message: '您的表單已成功提交。Your information has been submitted successfully!' 
+    message: '' 
   });
 });
 
@@ -365,6 +366,177 @@ router.post('/form3', async (req, res) => {
       return res.status(400).json({ success: false, error: errorMsg });
     }
     res.render('form3', { error: errorMsg });
+  }
+});
+
+// 匯出 Excel 資料
+router.get('/export/excel', async (req, res) => {
+  try {
+    // 查詢所有表單資料
+    const form1Data = await Form1.find().lean();
+    const form2Data = await Form2.find().lean();
+    const form3Data = await Form3.find().lean();
+
+    // 轉換 Form1 資料為 Excel 格式
+    const form1Rows = form1Data.map(item => ({
+      '提交時間': item.createdAt ? new Date(item.createdAt).toLocaleString('zh-TW') : '',
+      '姓(英文)': item.surname || '',
+      '名(英文)': item.givenName || '',
+      '姓(中文)': item.chineseSurname || '',
+      '名(中文)': item.chineseGivenName || '',
+      '稱謂': item.titleOfRespect || '',
+      '公司/機構': item.company || '',
+      '職銜': item.title || '',
+      '區碼': item.mobileCountryCode || '',
+      '手提電話': item.mobile || '',
+      '電子郵件': item.email || '',
+      '出席': item.attend || '',
+      '食物敏感': item.foodAllergy || '',
+      '私隱同意': item.privacyConsent ? '是' : '否'
+    }));
+
+    // 轉換 Form2 資料為 Excel 格式
+    const form2Rows = form2Data.map(item => ({
+      '提交時間': item.createdAt ? new Date(item.createdAt).toLocaleString('zh-TW') : '',
+      '姓(英文)': item.surname || '',
+      '名(英文)': item.givenName || '',
+      '姓(中文)': item.chineseSurname || '',
+      '名(中文)': item.chineseGivenName || '',
+      '稱謂': item.titleOfRespect || '',
+      '公司/機構': item.company || '',
+      '職銜': item.title || '',
+      '區碼': item.mobileCountryCode || '',
+      '手提電話': item.mobile || '',
+      '電子郵件': item.email || '',
+      '出席': item.attend || '',
+      '食物敏感': item.foodAllergy || '',
+      '攜眷': item.withSpouse || '',
+      '攜眷-姓(英文)': item.spouse?.surname || '',
+      '攜眷-名(英文)': item.spouse?.givenName || '',
+      '攜眷-姓(中文)': item.spouse?.chineseSurname || '',
+      '攜眷-名(中文)': item.spouse?.chineseGivenName || '',
+      '攜眷-稱謂': item.spouse?.titleOfRespect || '',
+      '攜眷-區碼': item.spouse?.mobileCountryCode || '',
+      '攜眷-手提電話': item.spouse?.mobile || '',
+      '攜眷-電子郵件': item.spouse?.email || '',
+      '攜眷-食物敏感': item.spouse?.foodAllergy || '',
+      '私隱同意': item.privacyConsent ? '是' : '否'
+    }));
+
+    // 轉換 Form3 資料為 Excel 格式
+    const form3Rows = form3Data.map(item => {
+      const row = {
+        '提交時間': item.createdAt ? new Date(item.createdAt).toLocaleString('zh-TW') : '',
+        '姓(英文)': item.surname || '',
+        '名(英文)': item.givenName || '',
+        '姓(中文)': item.chineseSurname || '',
+        '名(中文)': item.chineseGivenName || '',
+        '稱謂': item.titleOfRespect || '',
+        '公司/機構': item.company || '',
+        '職銜': item.title || '',
+        '區碼': item.mobileCountryCode || '',
+        '手提電話': item.mobile || '',
+        '電子郵件': item.email || '',
+        '出席': item.attend || '',
+        '食物敏感': item.foodAllergy || '',
+        '攜眷': item.withSpouse || '',
+        '攜眷-姓(英文)': item.spouse?.surname || '',
+        '攜眷-名(英文)': item.spouse?.givenName || '',
+        '攜眷-姓(中文)': item.spouse?.chineseSurname || '',
+        '攜眷-名(中文)': item.spouse?.chineseGivenName || '',
+        '攜眷-稱謂': item.spouse?.titleOfRespect || '',
+        '攜眷-區碼': item.spouse?.mobileCountryCode || '',
+        '攜眷-手提電話': item.spouse?.mobile || '',
+        '攜眷-電子郵件': item.spouse?.email || '',
+        '攜眷-食物敏感': item.spouse?.foodAllergy || '',
+        '攜同子女': item.withChildren || '',
+        '子女數目': item.numberOfChildren || ''
+      };
+
+      // 添加子女1的資料
+      if (item.child1) {
+        row['子女1-姓(英文)'] = item.child1.surname || '';
+        row['子女1-名(英文)'] = item.child1.givenName || '';
+        row['子女1-姓(中文)'] = item.child1.chineseSurname || '';
+        row['子女1-名(中文)'] = item.child1.chineseGivenName || '';
+        row['子女1-稱謂'] = item.child1.titleOfRespect || '';
+        row['子女1-區碼'] = item.child1.mobileCountryCode || '';
+        row['子女1-手提電話'] = item.child1.mobile || '';
+        row['子女1-電子郵件'] = item.child1.email || '';
+        row['子女1-食物敏感'] = item.child1.foodAllergy || '';
+      }
+
+      // 添加子女2的資料
+      if (item.child2) {
+        row['子女2-姓(英文)'] = item.child2.surname || '';
+        row['子女2-名(英文)'] = item.child2.givenName || '';
+        row['子女2-姓(中文)'] = item.child2.chineseSurname || '';
+        row['子女2-名(中文)'] = item.child2.chineseGivenName || '';
+        row['子女2-稱謂'] = item.child2.titleOfRespect || '';
+        row['子女2-區碼'] = item.child2.mobileCountryCode || '';
+        row['子女2-手提電話'] = item.child2.mobile || '';
+        row['子女2-電子郵件'] = item.child2.email || '';
+        row['子女2-食物敏感'] = item.child2.foodAllergy || '';
+      }
+
+      row['私隱同意'] = item.privacyConsent ? '是' : '否';
+      return row;
+    });
+
+    // 創建 Excel 工作簿
+    const workbook = XLSX.utils.book_new();
+
+    // 將資料轉換為工作表
+    if (form1Rows.length > 0) {
+      const form1Sheet = XLSX.utils.json_to_sheet(form1Rows);
+      XLSX.utils.book_append_sheet(workbook, form1Sheet, 'Form1');
+    } else {
+      // 即使沒有資料也創建空的 sheet
+      const form1Sheet = XLSX.utils.json_to_sheet([{
+        '提交時間': '', '姓(英文)': '', '名(英文)': '', '姓(中文)': '', '名(中文)': '',
+        '稱謂': '', '公司/機構': '', '職銜': '', '區碼': '', '手提電話': '',
+        '電子郵件': '', '出席': '', '食物敏感': '', '私隱同意': ''
+      }]);
+      XLSX.utils.book_append_sheet(workbook, form1Sheet, 'Form1');
+    }
+
+    if (form2Rows.length > 0) {
+      const form2Sheet = XLSX.utils.json_to_sheet(form2Rows);
+      XLSX.utils.book_append_sheet(workbook, form2Sheet, 'Form2');
+    } else {
+      const form2Sheet = XLSX.utils.json_to_sheet([{
+        '提交時間': '', '姓(英文)': '', '名(英文)': '', '姓(中文)': '', '名(中文)': '',
+        '稱謂': '', '公司/機構': '', '職銜': '', '區碼': '', '手提電話': '',
+        '電子郵件': '', '出席': '', '食物敏感': '', '攜眷': ''
+      }]);
+      XLSX.utils.book_append_sheet(workbook, form2Sheet, 'Form2');
+    }
+
+    if (form3Rows.length > 0) {
+      const form3Sheet = XLSX.utils.json_to_sheet(form3Rows);
+      XLSX.utils.book_append_sheet(workbook, form3Sheet, 'Form3');
+    } else {
+      const form3Sheet = XLSX.utils.json_to_sheet([{
+        '提交時間': '', '姓(英文)': '', '名(英文)': '', '姓(中文)': '', '名(中文)': '',
+        '稱謂': '', '公司/機構': '', '職銜': '', '區碼': '', '手提電話': '',
+        '電子郵件': '', '出席': '', '食物敏感': '', '攜眷': '', '攜同子女': ''
+      }]);
+      XLSX.utils.book_append_sheet(workbook, form3Sheet, 'Form3');
+    }
+
+    // 生成 Excel 緩衝區
+    const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+    // 設置響應頭
+    const fileName = `rsvp_export_${new Date().toISOString().split('T')[0]}.xlsx`;
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(fileName)}"`);
+
+    // 發送檔案
+    res.send(excelBuffer);
+  } catch (error) {
+    console.error('匯出 Excel 錯誤:', error);
+    res.status(500).json({ error: '匯出 Excel 失敗', message: error.message });
   }
 });
 
