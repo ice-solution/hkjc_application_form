@@ -52,6 +52,11 @@ router.get('/success', (req, res) => {
   });
 });
 
+// 嘉賓須知 / Guest Guidelines
+router.get('/remind', (req, res) => {
+  res.render('remind');
+});
+
 // Form 1 Routes
 router.get('/form1', (req, res) => {
   res.render('form1');
