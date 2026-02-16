@@ -6,6 +6,16 @@ const Form3 = require('../models/Form3');
 const { sendAttendanceEmail } = require('../services/emailService');
 const XLSX = require('xlsx');
 
+// 檢查是否超過登記截止時間 (GMT+8, 2026年2月17日 18:00)
+function isRegistrationClosed() {
+  const now = new Date();
+  // 設置截止時間：2026年2月17日 18:00 GMT+8
+  // 使用 ISO 字符串並明確指定時區偏移
+  // 2026-02-17 18:00:00 GMT+8 = 2026-02-17T10:00:00.000Z (UTC)
+  const deadline = new Date('2026-02-17T10:00:00.000Z');
+  return now >= deadline;
+}
+
 // 檢查 email 是否已在資料庫中註冊
 async function checkEmailExists(email) {
   if (!email) return false;
@@ -41,6 +51,9 @@ async function checkEmailExists(email) {
 
 // 首頁 - 顯示表單選擇
 router.get('/', (req, res) => {
+  if (isRegistrationClosed()) {
+    return res.redirect('/app_end');
+  }
   res.render('index');
 });
 
@@ -57,12 +70,31 @@ router.get('/remind', (req, res) => {
   res.render('remind');
 });
 
+// 活動登記已結束頁面
+router.get('/app_end', (req, res) => {
+  res.render('app_end');
+});
+
 // Form 1 Routes
 router.get('/form1', (req, res) => {
+  if (isRegistrationClosed()) {
+    return res.redirect('/app_end');
+  }
   res.render('form1');
 });
 
 router.post('/form1', async (req, res) => {
+  // 檢查是否超過登記截止時間
+  if (isRegistrationClosed()) {
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(403).json({ 
+        success: false, 
+        error: '活動登記已結束。Registration has closed.' 
+      });
+    }
+    return res.redirect('/app_end');
+  }
+  
   try {
     const formData = {
       surname: req.body.surname,
@@ -126,10 +158,24 @@ router.post('/form1', async (req, res) => {
 
 // Form 2 Routes
 router.get('/form2', (req, res) => {
+  if (isRegistrationClosed()) {
+    return res.redirect('/app_end');
+  }
   res.render('form2');
 });
 
 router.post('/form2', async (req, res) => {
+  // 檢查是否超過登記截止時間
+  if (isRegistrationClosed()) {
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(403).json({ 
+        success: false, 
+        error: '活動登記已結束。Registration has closed.' 
+      });
+    }
+    return res.redirect('/app_end');
+  }
+  
   try {
     const formData = {
       surname: req.body.surname,
@@ -218,10 +264,24 @@ router.post('/form2', async (req, res) => {
 
 // Form 3 Routes
 router.get('/form3', (req, res) => {
+  if (isRegistrationClosed()) {
+    return res.redirect('/app_end');
+  }
   res.render('form3');
 });
 
 router.post('/form3', async (req, res) => {
+  // 檢查是否超過登記截止時間
+  if (isRegistrationClosed()) {
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(403).json({ 
+        success: false, 
+        error: '活動登記已結束。Registration has closed.' 
+      });
+    }
+    return res.redirect('/app_end');
+  }
+  
   try {
     const formData = {
       surname: req.body.surname,
