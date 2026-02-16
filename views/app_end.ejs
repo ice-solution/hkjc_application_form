@@ -7,26 +7,45 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
         body {
             font-family: 'Roboto', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+        }
+        .container-wrapper {
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            display: block;
+        }
+        .container-inner {
+            max-width: 80rem;
+            width: 100%;
+            margin: 0 auto;
         }
         .title-container {
             text-align: center;
             width: 100%;
+            margin-bottom: 2rem;
         }
         .title-container h1,
         .title-container h2 {
             display: block;
             width: 100%;
             text-align: center;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-<div class="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12" style="display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center;">
-    <div class="max-w-5xl w-full" style="width: 100%; max-width: 80rem;">
+<div class="container-wrapper bg-gray-50">
+    <div class="container-inner">
         <!-- Banner -->
         <div class="mb-8 rounded-t-lg overflow-hidden">
             <img src="/images/banner.jpg" alt="Banner" class="w-full h-auto">
