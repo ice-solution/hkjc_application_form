@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const Album = require('../models/Album');
-const sizeOf = require('image-size');
+const { imageSize } = require('image-size');
 
 // 配置 multer 用於文件上傳
 const storage = multer.diskStorage({
@@ -113,7 +113,9 @@ router.post('/edit_albums/upload', requireAuth, upload.single('image'), async (r
     let orientation = 'landscape';
 
     try {
-      dimensions = sizeOf(filePath);
+      // 讀取文件為 Buffer，然後獲取尺寸
+      const fileBuffer = fs.readFileSync(filePath);
+      dimensions = imageSize(fileBuffer);
       if (dimensions.width > dimensions.height) {
         orientation = 'landscape';
       } else if (dimensions.height > dimensions.width) {
